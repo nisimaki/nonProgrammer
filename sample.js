@@ -3,9 +3,11 @@
  *
  * nextボタンを押したときに画像を切り替える簡単な
  * スライドショーのサンプルプログラムです。
+
+ nisi: jQueryを使って一部書き換えてみました。
  */
 
-window.onload = function() {
+$(function(){
 
     /*============================
      * 変数の定義
@@ -21,9 +23,9 @@ window.onload = function() {
     var photoLength = photoList.length;
 
     // 要素の取得
-    var photo = document.getElementById('photo');
-    var nextBtn = document.getElementById('nextBtn');
-    var title = document.getElementById('title');
+    var photo = $('#photo');
+    var nextBtn = $('#nextBtn');
+    var title = $('#title');
 
     // 現在のインデックスを保存するための変数
     var currentIndex = 0;
@@ -36,7 +38,7 @@ window.onload = function() {
     function showPhoto(index) {
         // すべての画像を非表示
         for (var i = 0; i < photoLength; i++) {
-            photoList[i].elem.style.display = 'none';
+            $(photoList[i].elem).css('display','none');
         }
 
         // 表示する対象の要素を取得
@@ -44,10 +46,10 @@ window.onload = function() {
 
         // タイトルの表示
         var viewNumber = index + 1;
-        title.innerHTML = '[' + viewNumber + '] ' + targetPhoto.title;
+        title.text('[' + viewNumber + '] ' + targetPhoto.title);
 
         // 画像の表示
-        targetPhoto.elem.style.display = 'inline';
+        $(targetPhoto.elem).css('display','inline');
     }
 
     /*============================
@@ -55,7 +57,7 @@ window.onload = function() {
      *===========================*/
 
     // nextボタンを押したときの処理
-    nextBtn.onclick = function() {
+    nextBtn.click( function() {
         // 表示する画像のインデックスを計算
         currentIndex++;
         if (currentIndex === photoLength) {
@@ -64,7 +66,7 @@ window.onload = function() {
 
         // 画像の切り替え
         showPhoto(currentIndex);
-    };
+    });
 
     /*============================
      * 初期化処理
@@ -83,7 +85,7 @@ window.onload = function() {
         img.alt = item.title;
 
         // 作成したimg要素をHTMLに追加
-        photo.appendChild(img);
+        photo.append(img);
 
         // 作成したimg要素を保存
         item.elem = img;
@@ -91,4 +93,5 @@ window.onload = function() {
 
     // 初期表示のためにshowPhoto関数を実行する
     showPhoto(currentIndex);
-};
+
+});
